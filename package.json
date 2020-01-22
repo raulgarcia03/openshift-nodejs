@@ -4,7 +4,7 @@
   "description": "Node.js Example",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.13.4" 
+    "express": "^4.13.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
