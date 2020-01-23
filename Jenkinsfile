@@ -13,7 +13,7 @@ pipeline {
                                 bc.spec.strategy.sourceStrategy.incremental=true
                                 openshift.apply(bc)
                                 openshift.expose("svc", "myapp")
-                                openshift.cancelBuild("bc/myapp")
+                                openshift.cancelBuild(bc)
                                 openshift.startBuild("myapp", "--wait")
                             } else {
                                 openshift.startBuild("myapp", "--wait")
