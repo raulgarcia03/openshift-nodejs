@@ -7,9 +7,14 @@ pipeline {
                     openshift.withCluster() {
                         openshift.withProject() {
                             if (!openshift.selector("dc", "myapp").exists()) {
-                                openshift.newApp('https://github.com/cellosofia/openshift-nodejs', '--name=myapp', '--strategy=source')
+                                openshift.newApp('nodejs:10~https://github.com/cellosofia/openshift-nodejs', '--name=myapp', '--strategy=source')
+                                openshift.set("triggers", "dc/myapp", "--remove-all")
+                                def bc=openshift.selector("bc", "myapp").object()
+                                bc.spec.strategy.sourceStrategy.incremental=true
+                                openshift.apply(bc)
+                                openshift.expose("svc", "myapp")
                             } else {
-                                openshift.startBuild("myapp")
+                                openshift.startBuild("myapp", "--wait")
                             }
                         }
                     }
