@@ -7,7 +7,7 @@ pipeline {
                     openshift.withCluster() {
                         openshift.withProject() {
                             if (!openshift.selector("dc", "myapp").exists()) {
-                                openshift.newApp('nodejs:10~https://github.com/cellosofia/openshift-nodejs', '--name=myapp', '--strategy=source')
+                                openshift.newApp('--image-stream=nodejs:10', '--source=https://github.com/cellosofia/openshift-nodejs', '--name=myapp', '--strategy=source')
                                 openshift.set("triggers", "dc/myapp", "--remove-all")
                                 def bc=openshift.selector("bc", "myapp").object()
                                 bc.spec.strategy.sourceStrategy.incremental=true
