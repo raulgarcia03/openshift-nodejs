@@ -13,7 +13,7 @@ pipeline {
                                 bc.spec.strategy.sourceStrategy.incremental=true
                                 openshift.apply(bc)
                                 def dc=openshift.selector("dc", "myapp").object()
-                                dc.delete()
+                                openshift.selector(dc).delete()
                                 openshift.newApp('--image-stream=myproject/myapp', '--name=myapp')
                                 openshift.set("triggers", "dc/myapp", "--remove-all")
                                 openshift.expose("svc", "myapp")
